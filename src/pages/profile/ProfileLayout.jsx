@@ -120,6 +120,7 @@ const ProfileLayout = () => {
         />
       )}
       <Stack
+        mb={10}
         maxWidth="750px"
         mx="auto"
         p={{ xs: 2, sm: 3 }}
