@@ -15,7 +15,7 @@ import { BiRepost } from "react-icons/bi";
 import { IoSend } from "react-icons/io5";
 import { useState } from "react";
 import RepliesMenu from "../ThreadReplies";
-import ToolbarMenu from "../../menu/Toolbarmenu";
+import ToolbarMenu from "../../menu/ToolbarMenu";
 
 const PostToolbar = ({
   liked,
