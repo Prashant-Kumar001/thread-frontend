@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
   TextField,
   Button,
-  Paper,
   Alert,
   CircularProgress,
   useTheme,
@@ -26,6 +25,10 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    document.title = "Sign Up - Threads";
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -59,26 +62,30 @@ const Register = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "background.default",
-        color: "text.primary",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         px: 2,
+        backgroundColor: theme.palette.background.default,
+        backgroundImage: `url(https://static.cdninstagram.com/rsrc.php/ym/r/gf40BP6SRYU.avif)`,
+        backgroundSize: "auto",
+        backgroundPosition: "center -150px",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      <Paper
-        elevation={4}
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
         sx={{
-          p: 4,
           width: "100%",
           maxWidth: 400,
-          borderRadius: 4,
-          bgcolor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Join Threads
+        <Typography variant="subtitle2" align="center" fontWeight={700} gutterBottom>
+          Create your account
         </Typography>
 
         {error && (
@@ -87,48 +94,58 @@ const Register = () => {
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleSubmit} noValidate>
-          <TextField
-            label="Username"
-            name="username"
-            fullWidth
-            value={formData.username}
-            onChange={handleChange}
-            margin="normal"
-            required
-            autoFocus
-          />
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            fullWidth
-            value={formData.email}
-            onChange={handleChange}
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            fullWidth
-            value={formData.password}
-            onChange={handleChange}
-            margin="normal"
-            required
-          />
+        <TextField
+          label="Username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+          autoFocus
+        />
+        <TextField
+          label="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}
-            disabled={isLoading}
-          >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : "Create Account"}
-          </Button>
-        </Box>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{
+            mt: 1,
+            mb: 1,
+            borderRadius: 1,
+            py: 1.7,
+            backgroundColor: "black",
+            ":hover": {
+              backgroundColor: "#222",
+            },
+            color: "white",
+            fontWeight: 600,
+            textTransform: "none",
+          }}
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={24} color="inherit" /> : "Sign Up"}
+        </Button>
 
         <Typography variant="body2" align="center" sx={{ mt: 2 }}>
           Already have an account?{" "}
@@ -136,7 +153,7 @@ const Register = () => {
             Log in
           </Link>
         </Typography>
-      </Paper>
+      </Box>
     </Box>
   );
 };

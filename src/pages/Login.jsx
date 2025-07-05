@@ -5,7 +5,6 @@ import {
   TextField,
   Typography,
   Button,
-  Paper,
   Alert,
   CircularProgress,
   useTheme,
@@ -13,6 +12,8 @@ import {
 import { useLoginMutation } from "../redux/services/auth/auth";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/features/authSlice";
+
+import bg from '../assets/9551821.jpg'
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +38,6 @@ const Login = () => {
       dispatch(setCredentials(userData));
       navigate("/");
     } catch (err) {
-      console.error("Login failed:", err);
       setError(err?.data?.message || "Login failed. Please try again.");
     } finally {
       setEmail("");
@@ -53,25 +53,35 @@ const Login = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "background.default",
-        color: "text.primary",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         px: 2,
+        backgroundColor: theme.palette.background.default,
+        backgroundImage: `url(https://static.cdninstagram.com/rsrc.php/ym/r/gf40BP6SRYU.avif)`,
+        backgroundSize: "auto",
+        backgroundPosition: "center -150px",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      <Paper
-        elevation={4}
+      <Box
+        component="form"
+        onSubmit={handleLogin}
+        noValidate
         sx={{
-          p: 4,
           width: "100%",
           maxWidth: 400,
-          borderRadius: 4,
-          bgcolor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography
+          variant="subtitle2"
+          fontWeight={700}
+          align="center"
+          gutterBottom
+          sx={{ mb: 1 }}
+        >
           Log in to Threads
         </Typography>
 
@@ -81,40 +91,47 @@ const Login = () => {
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleLogin} noValidate>
-          <TextField
-            label="Username or Email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            required
-            autoFocus
-            margin="normal"
-          />
-          <TextField
-            label="Password"
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-          />
+        <TextField
+          label="Username or Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+          autoFocus
+          margin="normal"
+        />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}
-            disabled={isLoading}
-          >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : "Log in"}
-          </Button>
-        </Box>
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          disabled={isLoading}
+          sx={{
+            mt: 1,
+            mb: 1,
+            borderRadius: 1,
+            py: 1.7,
+            backgroundColor: "black",
+            ":hover": {
+              backgroundColor: "#222",
+            },
+            color: "white",
+            fontWeight: 600,
+            textTransform: "none",
+          }}
+        >
+          {isLoading ? <CircularProgress size={24} color="inherit" /> : "Log in"}
+        </Button>
 
         <Typography variant="body2" align="center" sx={{ mt: 2 }}>
           Don’t have an account?{" "}
@@ -122,7 +139,7 @@ const Login = () => {
             Sign up
           </Link>
         </Typography>
-      </Paper>
+      </Box>
     </Box>
   );
 };
