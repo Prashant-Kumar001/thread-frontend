@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Avatar,
   Box,
   Button,
   Chip,
-  Skeleton,
+  CircularProgress,
   Stack,
   Typography,
   useTheme,
@@ -14,7 +14,6 @@ import { Outlet, useParams, NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
-import { CgEyeAlt } from "react-icons/cg";
 import { formatDistanceToNow } from "date-fns";
 
 import EditProfile from "../../components/model/EditProfile";
@@ -43,11 +42,7 @@ const ProfileLayout = () => {
     user,
     mutualFollowersPreview = [],
     mutualFollowersCount = 0,
-    youFollowThem,
-    theyFollowYou,
-    isMutual
   } = data ?? {};
-
 
   const [toggleFollow, { isLoading: isToggling }] = useFollowToggleMutation();
 
@@ -82,16 +77,8 @@ const ProfileLayout = () => {
   if (!username) return <ErrorFallback msg="No user specified in URL." />;
   if (isLoading)
     return (
-      <Stack maxWidth="sm" mx="auto" spacing={2} mt={2}>
-        <Box display="flex" justifyContent={"space-between"} gap={2} >
-          <Box width="80%" >
-            <Skeleton variant="text" width="40%" />
-            <Skeleton variant="text" width="30%" />
-            <Skeleton variant="text" width="20%" />
-          </Box>
-          <Skeleton variant="circular" width={64} height={64} />
-        </Box>
-        <Skeleton variant="rectangular" height={200} />
+      <Stack alignItems="center" mt={5}>
+        <CircularProgress />
       </Stack>
     );
 
@@ -201,7 +188,7 @@ const ProfileLayout = () => {
           <Typography variant="body2" color="text.secondary">
             Followed by{" "}
             {mutualFollowersPreview.map((u, i) => (
-              <Link key={u._id} to={`/${u.username}`} >
+              <Link key={u._id} to={`/${u.username}`}>
                 <strong key={u.username}>
                   {u.displayName || u.username}
                   {i < mutualFollowersPreview.length - 1 ? ", " : ""}
@@ -209,7 +196,9 @@ const ProfileLayout = () => {
               </Link>
             ))}
             {mutualFollowersCount > mutualFollowersPreview.length &&
-              ` and ${mutualFollowersCount - mutualFollowersPreview.length} others`}
+              ` and ${
+                mutualFollowersCount - mutualFollowersPreview.length
+              } others`}
           </Typography>
         )}
         <Stack
